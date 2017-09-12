@@ -12,24 +12,29 @@ void PR2_Mover::init(ros::NodeHandle& nh){
     _sub_joint_state_msg.reset(new ros::Subscriber(nh.subscribe("/joint_states", 10, &PR2_Mover::joint_state_Callback, this)));
     _get_planning_scene.reset(new ros::ServiceClient(nh.serviceClient<moveit_msgs::GetPlanningScene>("get_planning_scene", 1)));
     _psm_pub.reset(new ros::Publisher(nh.advertise<moveit_msgs::PlanningScene>("planning_scene", 1)));
-//    _psm = planning_scene_monitor::PlanningSceneMonitorPtr(new planning_scene_monitor::PlanningSceneMonitor("robot_description", tf, "name"));
 
     global_parameters.set_robot_model_loader();
     global_parameters.set_robot_model();
 
-    ROS_ERROR_STREAM("MY NAME SPACE IS: " << nh.getNamespace() << " /////////////////////////!!!!!!!!!!!!!!");
+
+    ROS_ERROR_STREAM("PR2 MOVER :  MY NAME SPACE IS: " << nh.getNamespace() << " /////////////////////////!!!!!!!!!!!!!!");
+    ROS_ERROR_STREAM("PR2 MOVER : Looking for parameters: " << nh.getNamespace() + "/planner_parameters");
     nh.getParam(nh.getNamespace() + "/planner_parameters", global_parameters.get_planner_parameters());
 
     group.reset(new MoveGroup(MoveGroup::Options(static_cast<std::string>(global_parameters.get_planner_parameters()["babbling_arm"]), MoveGroup::ROBOT_DESCRIPTION, nh)));
     secondary_group.reset(new MoveGroup(MoveGroup::Options(static_cast<std::string>(global_parameters.get_planner_parameters()["secondary_arm"]), MoveGroup::ROBOT_DESCRIPTION, nh)));
     ROS_INFO_STREAM("THE MOVER: The planner id is: " << std::string(global_parameters.get_planner_parameters()["planner_id"]));
     ROS_INFO_STREAM("THE MOVER: The planning time is: " << std::stod(global_parameters.get_planner_parameters()["planning_time"]));
+
     group->setPlannerId(std::string(global_parameters.get_planner_parameters()["planner_id"]));
     group->setPlanningTime(std::stod(global_parameters.get_planner_parameters()["planning_time"]));
+
+    secondary_group->setPlannerId(std::string(global_parameters.get_planner_parameters()["planner_id"]));
+    secondary_group->setPlanningTime(std::stod(global_parameters.get_planner_parameters()["planning_time"]));
+
     //nh.getParam("planner_id", _planner_id);
     _my_spinner.reset(new ros::AsyncSpinner(1));
     _my_spinner->start();
-    //group->
 }
 
 bool PR2_Mover::move_pr2_arm_cb(pr2_mover_utils::move_pr2_arm::Request &req,

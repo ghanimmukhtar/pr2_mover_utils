@@ -33,6 +33,9 @@
 struct Parameters {
     std::vector<std::string> arm_joints_names = {"l_shoulder_pan_joint", "l_shoulder_lift_joint", "l_upper_arm_roll_joint",
                                                  "l_elbow_flex_joint", "l_forearm_roll_joint", "l_wrist_flex_joint", "l_wrist_roll_joint"};
+
+    std::vector<std::string> arm_joints_names_right = {"r_shoulder_pan_joint", "r_shoulder_lift_joint", "r_upper_arm_roll_joint",
+                                                 "r_elbow_flex_joint", "r_forearm_roll_joint", "r_wrist_flex_joint", "r_wrist_roll_joint"};
     sensor_msgs::JointState my_joint_state;
     geometry_msgs::Pose l_eef_pose, r_eef_pose;
     geometry_msgs::PoseStamped pose_target;
@@ -85,6 +88,10 @@ public:
 
     std::vector<std::string>& get_pr2_arm_joints_names(){
         return params.arm_joints_names;
+    }
+
+    std::vector<std::string>& get_pr2_right_arm_joints_names(){
+        return params.arm_joints_names_right;
     }
 
     sensor_msgs::JointState& get_joint_state(){

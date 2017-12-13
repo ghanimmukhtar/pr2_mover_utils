@@ -56,8 +56,6 @@ private:
     std::unique_ptr<ros::ServiceClient> _clear_octomap;
     std::unique_ptr<ros::ServiceClient> _get_planning_scene;
     std::unique_ptr<ros::Publisher> _psm_pub;
-    std::shared_ptr<moveit::planning_interface::MoveGroup> _group;
-    std::unique_ptr<ros::Subscriber> _sub_l_eef_msg, _sub_r_eef_msg;
     std::string _planner_id;
     std::unique_ptr<ros::Subscriber> _sub_joint_state_msg;
     XmlRpc::XmlRpcValue _planner_parameters;

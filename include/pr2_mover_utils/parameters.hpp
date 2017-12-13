@@ -31,7 +31,7 @@
 #include <pr2_mover_utils/move_pr2_arm.h>
 
 struct Parameters {
-    std::vector<std::string> arm_joints_names = {"l_shoulder_pan_joint", "l_shoulder_lift_joint", "l_upper_arm_roll_joint",
+    std::vector<std::string> arm_joints_names_left = {"l_shoulder_pan_joint", "l_shoulder_lift_joint", "l_upper_arm_roll_joint",
                                                  "l_elbow_flex_joint", "l_forearm_roll_joint", "l_wrist_flex_joint", "l_wrist_roll_joint"};
 
     std::vector<std::string> arm_joints_names_right = {"r_shoulder_pan_joint", "r_shoulder_lift_joint", "r_upper_arm_roll_joint",
@@ -86,8 +86,8 @@ public:
         return params.pose_target;
     }
 
-    std::vector<std::string>& get_pr2_arm_joints_names(){
-        return params.arm_joints_names;
+    std::vector<std::string>& get_pr2_left_arm_joints_names(){
+        return params.arm_joints_names_left;
     }
 
     std::vector<std::string>& get_pr2_right_arm_joints_names(){
